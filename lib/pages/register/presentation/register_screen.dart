@@ -1,11 +1,12 @@
 
+import 'package:capstone_2023_mo/pages/otp/otpScreen.dart';
 import 'package:flutter/material.dart';
 
 import '../../../core/component/app_text_field.dart';
-import '../../../core/route/app_route_name.dart';
 import '../../../core/theme/app_color.dart';
 
 class RegisterScreen extends StatefulWidget {
+  static const route = "/register";
   const RegisterScreen({super.key});
 
   @override
@@ -123,7 +124,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     onPressed: () {
                       Navigator.pushNamed(
                         context,
-                        AppRouteName.otpScreen,
+                        OTPScreen.route,
                       );
                     },
                     style: ButtonStyle(

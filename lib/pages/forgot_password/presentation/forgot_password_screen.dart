@@ -1,13 +1,14 @@
 // import 'package:auth_ui/core/component/app_text_field.dart';
 // import 'package:auth_ui/core/route/app_route_name.dart';
 // import 'package:auth_ui/core/theme/app_color.dart';
+import 'package:capstone_2023_mo/pages/reset_password/presentation/reset_password_screen.dart';
 import 'package:flutter/material.dart';
 
 import '../../../core/component/app_text_field.dart';
-import '../../../core/route/app_route_name.dart';
 import '../../../core/theme/app_color.dart';
 
 class ForgotPasswordScreen extends StatefulWidget {
+  static const route = "/forgot-password";
   const ForgotPasswordScreen({super.key});
 
   @override
@@ -74,7 +75,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                 onPressed: () {
                   Navigator.pushNamed(
                     context,
-                    AppRouteName.resetPassword,
+                    ResetPassword.route,
                   );
                 },
                 style: ButtonStyle(

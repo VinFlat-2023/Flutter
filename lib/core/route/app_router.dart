@@ -1,4 +1,5 @@
 
+import 'package:capstone_2023_mo/pages/wallet/wallet_screen.dart';
 import 'package:flutter/material.dart';
 
 import '../../pages/forgot_password/presentation/forgot_password_screen.dart';
@@ -8,18 +9,17 @@ import '../../pages/login/presentation/login_screen.dart';
 import '../../pages/otp/otpScreen.dart';
 import '../../pages/register/presentation/register_screen.dart';
 import '../../pages/reset_password/presentation/reset_password_screen.dart';
-import 'app_route_name.dart';
 
 class AppRoute {
   static Route<dynamic>? generate(RouteSettings settings) {
     switch (settings.name) {
-      case AppRouteName.login:
+      case LoginScreen.route:
         return MaterialPageRoute(
           builder: (_) => const LoginScreen(),
           settings: settings,
         );
 
-      case AppRouteName.forgotPassword:
+      case ForgotPasswordScreen.route:
         return PageRouteBuilder(
           settings: settings,
           pageBuilder: (_, __, ___) => const ForgotPasswordScreen(),
@@ -37,7 +37,7 @@ class AppRoute {
           },
         );
 
-      case AppRouteName.resetPassword:
+      case ResetPassword.route:
         return PageRouteBuilder(
           settings: settings,
           pageBuilder: (_, __, ___) => const ResetPassword(),
@@ -55,7 +55,7 @@ class AppRoute {
           },
         );
 
-      case AppRouteName.register:
+      case RegisterScreen.route:
         return PageRouteBuilder(
           settings: settings,
           pageBuilder: (_, __, ___) => const RegisterScreen(),
@@ -72,7 +72,7 @@ class AppRoute {
             );
           },
         );
-      case AppRouteName.otpScreen:
+      case OTPScreen.route:
         return PageRouteBuilder(
           settings: settings,
           pageBuilder: (_, __, ___) => const OTPScreen(),
@@ -90,7 +90,7 @@ class AppRoute {
           },
         );
 
-      case AppRouteName.homepage:
+      case HomePageScreen.route:
         return PageRouteBuilder(
           settings: settings,
           pageBuilder: (_, __, ___) => const HomePageScreen(),
@@ -107,7 +107,7 @@ class AppRoute {
             );
           },
         );
-      case AppRouteName.bottomMenu:
+      case BottomMenu.route:
         return PageRouteBuilder(
           settings: settings,
           pageBuilder: (_, __, ___) => const BottomMenu(),
@@ -124,10 +124,10 @@ class AppRoute {
             );
           },
         );
-      case AppRouteName.wallet:
+      case WalletScreen.route:
         return PageRouteBuilder(
           settings: settings,
-          pageBuilder: (_, __, ___) => const BottomMenu(),
+          pageBuilder: (_, __, ___) => const WalletScreen(),
           transitionDuration: const Duration(milliseconds: 300),
           transitionsBuilder: (_, animation, __, child) {
             // slide in transition,

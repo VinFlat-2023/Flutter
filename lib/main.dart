@@ -1,7 +1,7 @@
+import 'package:capstone_2023_mo/pages/login/presentation/login_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 // import 'firebase_options.dart';
-import 'core/route/app_route_name.dart';
 import 'core/route/app_router.dart';
 import 'core/theme/app_theme.dart';
 
@@ -24,7 +24,7 @@ class MyApp extends StatelessWidget {
       title: "VinFlat",
       theme: AppTheme.light,
       themeMode: ThemeMode.light,
-      initialRoute: AppRouteName.login,
+      initialRoute: LoginScreen.route,
       onGenerateRoute: AppRoute.generate,
     );
   }

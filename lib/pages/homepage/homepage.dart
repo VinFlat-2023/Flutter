@@ -4,15 +4,16 @@ import 'dart:ui';
 // import 'package:auth_ui/core/component/app_text_field.dart';
 // import 'package:auth_ui/core/route/app_route_name.dart';
 // import 'package:auth_ui/core/theme/app_color.dart';
+import 'package:capstone_2023_mo/pages/register/presentation/register_screen.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import '../../core/route/app_route_name.dart';
 import '../../core/theme/app_color.dart';
 import 'dashboard.dart';
 import 'drawheader.dart';
 
 class HomePageScreen extends StatefulWidget {
+  static const route = "/homepage";
   const HomePageScreen({super.key});
 
   @override
@@ -71,7 +72,7 @@ class _HomePageScreen extends State<HomePageScreen> {
                                   ..onTap = () {
                                     Navigator.pushNamed(
                                       context,
-                                      AppRouteName.register,
+                                      RegisterScreen.route,
                                     );
                                   },
                               ),

@@ -7,6 +7,7 @@ import '../../../core/component/app_text_field.dart';
 import '../../../core/theme/app_color.dart';
 
 class ResetPassword extends StatefulWidget {
+  static const route = "/reset-password";
   const ResetPassword({super.key});
 
   @override

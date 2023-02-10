@@ -8,6 +8,7 @@ import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'my_card.dart';
 
 class WalletScreen extends StatefulWidget {
+  static const route = "/wallet";
   const WalletScreen({super.key});
 
   @override

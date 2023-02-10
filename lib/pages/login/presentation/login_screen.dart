@@ -7,16 +7,20 @@ import 'dart:ui';
 // import 'package:auth_ui/firebasse_authe/firebase_services.dart';
 // import 'package:auth_ui/model/Author.dart';
 // import 'package:auth_ui/model/Renter.dart';
+import 'package:capstone_2023_mo/pages/forgot_password/presentation/forgot_password_screen.dart';
+import 'package:capstone_2023_mo/pages/homepage/bottom_menu.dart';
+import 'package:capstone_2023_mo/pages/homepage/homepage.dart';
+import 'package:capstone_2023_mo/pages/register/presentation/register_screen.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 
-import '../../../core/route/app_route_name.dart';
 import '../../../core/theme/app_color.dart';
 import '../../../firebasse_authe/firebase_services.dart';
 import '../../../model/Renter.dart';
 
 class LoginScreen extends StatefulWidget {
+  static const route = "/login";
   const LoginScreen({super.key});
 
   @override
@@ -125,7 +129,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       onPressed: () {
                         Navigator.pushNamed(
                           context,
-                          AppRouteName.forgotPassword,
+                          ForgotPasswordScreen.route,
                         );
                       },
                       child: const Text("Quên mật khẩu ?"),
@@ -139,7 +143,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     child: ElevatedButton(
                       onPressed: () {
                         print("LOGIN");
-                        Navigator.pushNamed(context, AppRouteName.bottomMenu);
+                        Navigator.pushNamed(context, BottomMenu.route);
                       },
                       style: ButtonStyle(
                         shape:
@@ -171,7 +175,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         await FirebaseServices().signInWithGoogle();
                         Navigator.pushNamed(
                           context,
-                          AppRouteName.homepage,
+                          HomePageScreen.route,
                         );
                       },
                       style: ButtonStyle(
@@ -209,7 +213,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               ..onTap = () {
                                 Navigator.pushNamed(
                                   context,
-                                  AppRouteName.register,
+                                  RegisterScreen.route,
                                 );
                               },
                           ),

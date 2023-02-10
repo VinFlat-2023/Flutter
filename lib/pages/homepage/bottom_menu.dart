@@ -13,6 +13,7 @@ import '../wallet/wallet_screen.dart';
 import 'homepage.dart';
 
 class BottomMenu extends StatefulWidget {
+  static const route = "/bottomMenu";
   const BottomMenu({super.key});
 
   @override

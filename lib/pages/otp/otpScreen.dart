@@ -7,6 +7,7 @@ import 'package:pinput/pinput.dart';
 import '../../core/theme/app_color.dart';
 
 class OTPScreen extends StatelessWidget {
+  static const route = "/otp";
   const OTPScreen({super.key});
 
   @override
