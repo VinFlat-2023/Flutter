@@ -1,4 +1,5 @@
 
+import 'package:capstone_2023_mo/asset.dart';
 import 'package:capstone_2023_mo/pages/otp/otpScreen.dart';
 import 'package:flutter/material.dart';
 
@@ -47,7 +48,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
               width: MediaQuery.of(context).size.width,
               height: 250,
               fit: BoxFit.contain,
-              image: const AssetImage("assets/img_register.png"),
+              image: const AssetImage(registerImg),
             ),
             Text(
               "Đăng kí",

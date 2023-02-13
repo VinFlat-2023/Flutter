@@ -4,6 +4,7 @@
 import 'package:capstone_2023_mo/pages/reset_password/presentation/reset_password_screen.dart';
 import 'package:flutter/material.dart';
 
+import '../../../asset.dart';
 import '../../../core/component/app_text_field.dart';
 import '../../../core/theme/app_color.dart';
 
@@ -49,7 +50,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
               width: MediaQuery.of(context).size.width,
               height: 450,
               fit: BoxFit.contain,
-              image: const AssetImage("assets/img_forgot_password.png"),
+              image: const AssetImage(forgotPasswordImg),
             ),
             Text(
               "Quên\nMật khẩu",

@@ -4,6 +4,7 @@ import 'dart:ui';
 // import 'package:auth_ui/core/component/app_text_field.dart';
 // import 'package:auth_ui/core/route/app_route_name.dart';
 // import 'package:auth_ui/core/theme/app_color.dart';
+import 'package:capstone_2023_mo/asset.dart';
 import 'package:capstone_2023_mo/pages/register/presentation/register_screen.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/gestures.dart';
@@ -34,7 +35,10 @@ class _HomePageScreen extends State<HomePageScreen> {
           backgroundColor: Color.fromRGBO(30, 86, 160, 1),
           drawer: DrawHeader(),
           appBar: AppBar(
-            title: ConstrainedBox(constraints: BoxConstraints(maxHeight: 80, maxWidth: 200), child: Image.asset("assets/logo_home.png")),
+            title: ConstrainedBox(
+                constraints: BoxConstraints(maxHeight: 80, maxWidth: 200),
+                child: Image.asset(logoImg),
+            ),
             centerTitle: true,
             backgroundColor: Colors.transparent,
             elevation: 0,
@@ -43,7 +47,7 @@ class _HomePageScreen extends State<HomePageScreen> {
             children: [
               SizedBox(height: 100),
               Padding(
-                padding: const EdgeInsets.all(24.0),
+                padding: const EdgeInsets.only( bottom: 24.0, left: 24.0, right: 24.0),
                 child: Container(
                   height: 80,
                   width: 2000,
@@ -60,7 +64,7 @@ class _HomePageScreen extends State<HomePageScreen> {
                       children: [
                         Image(
                           fit: BoxFit.fill,
-                          image: AssetImage("assets/ver8_ic.png"),
+                          image: AssetImage(ver8IcImg),
                         ),
                         RichText(
                             textAlign: TextAlign.start,
@@ -83,12 +87,13 @@ class _HomePageScreen extends State<HomePageScreen> {
                           color: Colors.white,
                         ),
                         //cac tinh nang khac
-                        Dashboard(),
+                        //Dashboard(),
                       ],
                     ),
                   ),
                 ),
               ),
+              Dashboard(),
             ],
           ),
         );

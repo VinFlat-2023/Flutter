@@ -1,6 +1,7 @@
 // import 'package:auth_ui/core/component/app_text_field.dart';
 // import 'package:auth_ui/core/route/app_route_name.dart';
 // import 'package:auth_ui/core/theme/app_color.dart';
+import 'package:capstone_2023_mo/asset.dart';
 import 'package:flutter/material.dart';
 
 import '../../../core/component/app_text_field.dart';
@@ -48,7 +49,7 @@ class _ResetPasswordState extends State<ResetPassword> {
               width: MediaQuery.of(context).size.width,
               height: 450,
               fit: BoxFit.contain,
-              image: const AssetImage("assets/img_reset_password.png"),
+              image: const AssetImage(resetPasswordImg),
             ),
             Text(
               "Đặt lại\nMật khẩu",

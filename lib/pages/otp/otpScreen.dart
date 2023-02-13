@@ -1,4 +1,5 @@
 // import 'package:auth_ui/core/theme/app_color.dart';
+import 'package:capstone_2023_mo/asset.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:pinput/pinput.dart';
@@ -43,7 +44,7 @@ class OTPScreen extends StatelessWidget {
               width: MediaQuery.of(context).size.width,
               height: 250,
               fit: BoxFit.contain,
-              image: const AssetImage("assets/img_otp.png"),
+              image: const AssetImage(otpImg),
             ),
             Text(
               "Enter OTP",
