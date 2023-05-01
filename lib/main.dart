@@ -5,6 +5,7 @@ import 'package:unihome/routes/pages.dart';
 import 'package:unihome/routes/routes.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
   runApp(const MyApp());
 }
 
@@ -15,7 +16,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
-      title: 'Vìnflat Demo',
+      title: 'VinFlat',
       debugShowCheckedModeBanner: false,
       builder: (_, child) => FlutterEasyLoading(child: child),
       getPages: RoutePage.routes,

@@ -9,6 +9,7 @@ import 'package:unihome/repositories/models/invoice.model.dart';
 import 'package:unihome/repositories/models/rental.model.dart';
 import 'package:unihome/repositories/models/renter.model.dart';
 import 'package:unihome/repositories/models/service.model.dart';
+import 'package:unihome/repositories/models/technician.model.dart';
 import 'package:unihome/repositories/models/ticket.model.dart';
 import 'package:unihome/repositories/res/base_response.dart';
 
@@ -19,6 +20,12 @@ class UserRepo {
   Future<BaseResponse?> loginWithRenter(
       String username, String password) async {
     var res = await userApi.loginWithRenter(username, password);
+    return res!.code == SUCCESS ? res : null;
+  }
+
+  Future<BaseResponse?> loginWithTechnician(
+      String username, String password) async {
+    var res = await userApi.loginWithTechnician(username, password);
     return res!.code == SUCCESS ? res : null;
   }
 
@@ -43,6 +50,11 @@ class UserRepo {
     return res!.code == SUCCESS ? Renter.fromJson(res.data) : null;
   }
 
+  Future<Technician?> getTechProfile() async {
+    var res = await userApi.getTechProfile();
+    return res!.code == SUCCESS ? Technician.fromJson(res.data) : null;
+  }
+
   Future<List<Services>?> getListService() async {
     var res = await userApi.getListService();
     return res!.code == SUCCESS
@@ -50,19 +62,39 @@ class UserRepo {
         : null;
   }
 
-  Future<bool> editProfileRenter(String idRenter, String email, String phone,
-      String fullname, String address, int universityId, int majorId) async {
+  Future<bool> editProfileRenter(
+      {required String email,
+      required String phone,
+      required String fullname,
+      required String address,
+      required String birthday,
+      required String gender}) async {
     var res = await userApi.editProfileRenter(
-        idRenter, email, phone, fullname, address, universityId, majorId);
+        email, phone, fullname, address, birthday, gender);
+    return res!.code == SUCCESS ? true : false;
+  }
+
+  Future<bool> editProfileTech(
+      {required String email,
+      required String phone,
+      required String fullname,
+      required String address}) async {
+    var res = await userApi.editProfileTech(email, phone, fullname, address);
+    Get.log('[CODE] ====================== ${res!.code}');
+    Get.log('[MESSAGE] ====================== ${res!.message}');
     return res!.code == SUCCESS ? true : false;
   }
 
   Future<bool> requestTicket(
       {required String ticketDesc,
       required int type,
+      required String ticketName,
       required List<File> images}) async {
     var res = await userApi.requestTicket(
-        ticketDesc: ticketDesc, type: type, images: images);
+        ticketName: ticketName,
+        ticketDesc: ticketDesc,
+        type: type,
+        images: images);
     return res!.code == SUCCESS ? true : false;
   }
 
@@ -100,19 +132,81 @@ class UserRepo {
     return res!.code == SUCCESS ? true : false;
   }
 
+  Future<bool> uploadAvatar(File image) async {
+    var res = await userApi.uploadAvatar(image);
+    return res!.code == SUCCESS ? true : false;
+  }
+
   Future<bool> addService(List<int> listService) async {
     var res = await userApi.addService(listService);
     return res!.code == SUCCESS ? true : false;
   }
 
-  Future<bool> changePassword(String password, String confirm) async {
-    var res = await userApi.changePassword(password, confirm);
+  Future<String> changePasswordRenter(
+      {required String oldPass,
+      required String password,
+      required String confirm}) async {
+    var res = await userApi.changePasswordRenter(
+      confirm: confirm,
+      oldPass: oldPass,
+      password: password,
+    );
 
+    var msg = '';
+    if (res!.message!.contains('other')) {}
+    return msg;
+  }
+
+  Future<String> changePasswordTech(
+      {required String oldPass,
+      required String password,
+      required String confirm}) async {
+    var res = await userApi.changePasswordTech(
+      confirm: confirm,
+      oldPass: oldPass,
+      password: password,
+    );
+    var msg = '';
+    if (res!.message!.contains('Mật khẩu đã được cập nhật')) {
+      msg = res.message.toString();
+    } else {
+      msg = res.message.toString();
+    }
+    return msg;
+  }
+
+  Future<BasicRental?> getBasicRental() async {
+    var res = await userApi.getBasicRental();
+    return res!.code == SUCCESS ? BasicRental.fromJson(res.data) : null;
+  }
+
+  Future<Invoice?> getIndvoiceDetail(String id) async {
+    var res = await userApi.getInvoiceDetail(id);
+    return res!.code == SUCCESS ? Invoice.fromJson(res.data) : null;
+  }
+
+  Future<String?> acceptTicket(String idTicket) async {
+    var res = await userApi.acceptTicket(idTicket);
+    return res!.code == SUCCESS ? 'true' : res.message;
+  }
+
+  Future<String?> deleteTicket(String idTicket) async {
+    var res = await userApi.deleteTicket(idTicket);
+    return res!.code == SUCCESS ? 'true' : res.message;
+  }
+
+  Future<bool> resetPassword(String email) async {
+    var res = await userApi.resetPassword(email);
     return res!.code == SUCCESS ? true : false;
   }
 
-  Future<Invoice?> getDueDateInvoice() async {
-    var res = await userApi.getDueDateInvoice();
-    return res!.code == SUCCESS ? Invoice.fromJson(res.data) : null;
+  Future<String?> acceptTicketTech(String idTicket) async {
+    var res = await userApi.acceptTicketTech(idTicket);
+    return res!.code == SUCCESS ? 'true' : res.message;
+  }
+
+  Future<String?> solveTicketTech(String idTicket) async {
+    var res = await userApi.solveTicketTech(idTicket);
+    return res!.code == SUCCESS ? 'true' : res.message;
   }
 }

@@ -10,6 +10,7 @@ import 'package:unihome/utils/metric.dart';
 
 class TicketController extends GetxController {
   TextEditingController ticketDesc = TextEditingController();
+  TextEditingController ticketName = TextEditingController();
 
   var isLoading = true.obs;
   var listTicket = <Ticket>[].obs;
@@ -34,6 +35,7 @@ class TicketController extends GetxController {
   @override
   void onClose() {
     ticketDesc.dispose();
+    ticketName.dispose();
     super.onClose();
   }
 
@@ -50,6 +52,7 @@ class TicketController extends GetxController {
         .requestTicket(
       images: imageList,
       ticketDesc: ticketDesc.text.trim(),
+      ticketName: ticketName.text.trim(),
       type: selectedType.value.id!,
     )
         .then(
@@ -87,8 +90,11 @@ class TicketController extends GetxController {
   Future pickImage(ImageSource source) async {
     try {
       final List<XFile> pickedList = await ImagePicker().pickMultiImage();
-      if (pickedList != null) {
-        imageList.clear();
+      imageList.clear();
+      if (pickedList.length > 3) {
+        showToast('Bạn chỉ được chọn tối đa 3 bức ảnh');
+        pickedList.clear();
+      } else {
         pickedList.forEach((element) {
           imageList.add(File(element.path));
         });

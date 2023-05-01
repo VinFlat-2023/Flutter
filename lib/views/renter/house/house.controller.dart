@@ -31,15 +31,17 @@ class HouseController extends GetxController {
   }
 
   void removeDuplicate() {
-    listService.forEach((service) {
-      rental.value.listService!.forEach((rental) {
-        if (rental.id == service.id) {
-          service.checked = true;
-        }
+    if (rental.value.listService != null) {
+      listService.forEach((service) {
+        rental.value.listService!.forEach((rental) {
+          if (rental.id == service.id) {
+            service.checked = true;
+          }
+        });
       });
-    });
-
-    listService.removeWhere((element) => element.checked == true);
+//
+      listService.removeWhere((element) => element.checked == true);
+    }
   }
 
   Future<void> getRentalDetail() async {
@@ -73,6 +75,11 @@ class HouseController extends GetxController {
             .map((element) => int.parse(element.id.toString()))
             .toList())
         .then((value) {
+      listService.forEach((service) {
+        rental.value.listService!.forEach((rental) {
+          service.checked = false;
+        });
+      });
       goBack();
       showToast('Đăng ký dịch vụ thành công');
     });

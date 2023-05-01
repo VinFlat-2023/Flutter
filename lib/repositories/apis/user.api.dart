@@ -21,6 +21,21 @@ class UserApi extends BaseConnect {
     );
   }
 
+  Future<BaseResponse?> loginWithTechnician(
+      String username, String password) async {
+    String? deviceId = await PlatformDeviceId.getDeviceId;
+    return await postRequest(
+      '/api/auth/management/v1/login',
+      body: jsonEncode(
+        <String, String>{
+          "usernameOrPhoneNumber": username,
+          "password": password,
+          "deviceToken": deviceId.toString(),
+        },
+      ),
+    );
+  }
+
   Future<BaseResponse?> getContractByRenterId(
       {required String idContract, required String idRenter}) async {
     return await getResponse('/api/contracts/$idContract/user/$idRenter');
@@ -35,36 +50,51 @@ class UserApi extends BaseConnect {
     return await getResponse('/api/renters/profile');
   }
 
+  Future<BaseResponse?> getTechProfile() async {
+    return await getResponse('/api/employees/profile');
+  }
+
   Future<BaseResponse?> getListService() async {
     return await getResponse('/api/services');
   }
 
   Future<BaseResponse?> editProfileRenter(
-      String idRenter,
-      String email,
-      String phone,
-      String fullname,
-      String address,
-      int universityId,
-      int majorId) async {
-    String? deviceId = await PlatformDeviceId.getDeviceId;
+    String email,
+    String phone,
+    String fullname,
+    String address,
+    String birthday,
+    String gender,
+  ) async {
     return await putRequest(
-      '/api/renters/$idRenter',
+      '/api/renters/profile/update',
       body: jsonEncode(
         <String, dynamic>{
-          "username": "renter3",
           "email": email,
-          "password": "renter3",
-          "phone": int.parse(phone),
+          "phone": phone,
           "fullName": fullname,
-          "birthDate": "2005-08-18T17:18:18.303Z",
-          "status": true,
-          "contractId": 3,
+          'birthDate': birthday,
           "address": address,
-          "gender": "Male",
-          "universityId": universityId,
-          "majorId": majorId,
-          "deviceToken": deviceId.toString(),
+          "gender": gender,
+        },
+      ),
+    );
+  }
+
+  Future<BaseResponse?> editProfileTech(
+    String email,
+    String phone,
+    String fullname,
+    String address,
+  ) async {
+    return await putRequest(
+      '/api/employees/profile/update',
+      body: jsonEncode(
+        <String, dynamic>{
+          "email": email,
+          "phone": phone,
+          "fullName": fullname,
+          "address": address,
         },
       ),
     );
@@ -73,12 +103,14 @@ class UserApi extends BaseConnect {
   Future<BaseResponse?> requestTicket(
       {required String ticketDesc,
       required int type,
+      required String ticketName,
       required List<File> images}) async {
     return await postFormDataRequest(
       '/api/tickets',
       ticketTypeId: type,
       desc: ticketDesc,
       file: images,
+      name: ticketName,
     );
   }
 
@@ -95,15 +127,19 @@ class UserApi extends BaseConnect {
   }
 
   Future<BaseResponse?> getListInvoice() async {
-    return await getResponse('/api/invoices/user/all');
+    return await getResponse('/api/invoices');
   }
 
   Future<BaseResponse?> getListContract() async {
-    return await getResponse('/api/contracts/renter');
+    return await getResponse('/api/contracts');
   }
 
   Future<BaseResponse?> uploadFiles(File image) async {
     return await putFormDataRequest('/api/upload/renter', image);
+  }
+
+  Future<BaseResponse?> uploadAvatar(File image) async {
+    return await putFormDataRequest('/api/upload/employee', image);
   }
 
   Future<BaseResponse?> addService(List<int> listService) async {
@@ -113,17 +149,66 @@ class UserApi extends BaseConnect {
     );
   }
 
-  Future<BaseResponse?> changePassword(String password, String confirm) async {
+  Future<BaseResponse?> changePasswordRenter(
+      {required String oldPass,
+      required String password,
+      required String confirm}) async {
     return await putRequest(
       '/api/renters/change-password',
       body: jsonEncode(<String, dynamic>{
+        "oldPassword": oldPass,
         "password": password,
         "confirmPassword": confirm,
       }),
     );
   }
 
-  Future<BaseResponse?> getDueDateInvoice() async {
-    return await getResponse('/api/invoices/latest');
+  Future<BaseResponse?> changePasswordTech(
+      {required String oldPass,
+      required String password,
+      required String confirm}) async {
+    return await putRequest(
+      '/api/employees/change-password',
+      body: jsonEncode(<String, dynamic>{
+        "oldPassword": oldPass,
+        "password": password,
+        "confirmPassword": confirm,
+      }),
+    );
+  }
+
+  Future<BaseResponse?> getBasicRental() async {
+    return await getResponse('/api/renters/basic-rental');
+  }
+
+  Future<BaseResponse?> getInvoiceDetail(String id) async {
+    return await getResponse('/api/invoices/$id/user');
+  }
+
+  Future<BaseResponse?> deleteTicket(String idTicket) async {
+    return await deleteRequest('/api/tickets/$idTicket/user');
+  }
+
+  Future<BaseResponse?> acceptTicket(String idTicket) async {
+    return await putRequest('/api/tickets/$idTicket/accept');
+  }
+
+  Future<BaseResponse?> resetPassword(String email) async {
+    return await postRequest(
+      '/api/auth/reset-password',
+      body: jsonEncode(
+        <String, String>{
+          "registeredEmail": email,
+        },
+      ),
+    );
+  }
+
+  Future<BaseResponse?> acceptTicketTech(String idTicket) async {
+    return await putRequest('/api/tickets/$idTicket/accept-ticket');
+  }
+
+  Future<BaseResponse?> solveTicketTech(String idTicket) async {
+    return await putRequest('/api/tickets/$idTicket/solve-ticket');
   }
 }

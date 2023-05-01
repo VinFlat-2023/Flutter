@@ -31,6 +31,7 @@ class ContractDetailController extends GetxController {
       (value) {
         if (value != null) {
           contract.value = value;
+          Get.log('Check =================== ${contract.value.imageUrls}');
         } else {
           showToast('BUG!!!!');
         }

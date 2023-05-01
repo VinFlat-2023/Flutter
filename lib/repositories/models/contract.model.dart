@@ -56,11 +56,12 @@ class ContractDetail {
   String? description;
   String? lastUpdated;
   String? status;
-  int? roomId;
-  int? priceForRent;
-  int? priceForWater;
-  int? priceForElectric;
-  int? priceForService;
+  int? roomFlatId;
+  String? roomName;
+  String? priceForRent;
+  String? priceForWater;
+  String? priceForElectric;
+  String? priceForService;
 
   int? buildingId;
   String? buildingName;
@@ -68,8 +69,11 @@ class ContractDetail {
   String? buildingAddress;
 
   Renter? renter;
+  List<String>? imageUrls;
 
   ContractDetail({
+    this.roomName,
+    this.imageUrls,
     this.buildingAddress,
     this.buildingId,
     this.buildingName,
@@ -86,11 +90,14 @@ class ContractDetail {
     this.priceForService,
     this.priceForWater,
     this.renter,
-    this.roomId,
+    this.roomFlatId,
     this.status,
   });
 
   ContractDetail.fromJson(dynamic json) {
+    imageUrls = json['ImageUrls'] == null
+        ? null
+        : (json['ImageUrls'] as List).map((e) => e.toString()).toList();
     contractId = json['ContractMeterDetail']['ContractId'] == null
         ? null
         : json['ContractMeterDetail']['ContractId'] as int;
@@ -116,22 +123,25 @@ class ContractDetail {
     status = json['ContractMeterDetail']['ContractStatus'] == null
         ? null
         : json['ContractMeterDetail']['ContractStatus'] as String;
-    roomId = json['ContractMeterDetail']['RoomId'] == null
+    roomFlatId = json['ContractMeterDetail']['RoomFlatId'] == null
         ? null
-        : json['ContractMeterDetail']['RoomId'] as int;
+        : json['ContractMeterDetail']['RoomFlatId'] as int;
+    roomName = json['ContractMeterDetail']['RoomName'] == null
+        ? null
+        : json['ContractMeterDetail']['RoomName'] as String;
     priceForElectric =
         json['ContractMeterDetail']['PriceForElectricity'] == null
-            ? 0
-            : int.parse(json['ContractMeterDetail']['PriceForElectricity']);
+            ? null
+            : json['ContractMeterDetail']['PriceForElectricity'] as String;
     priceForRent = json['ContractMeterDetail']['PriceForRent'] == null
-        ? 0
-        : int.parse(json['ContractMeterDetail']['PriceForRent']);
+        ? null
+        : json['ContractMeterDetail']['PriceForRent'] as String;
     priceForService = json['ContractMeterDetail']['PriceForService'] == null
-        ? 0
-        : int.parse(json['ContractMeterDetail']['PriceForService']);
+        ? null
+        : json['ContractMeterDetail']['PriceForService'] as String;
     priceForWater = json['ContractMeterDetail']['PriceForWater'] == null
-        ? 0
-        : int.parse(json['ContractMeterDetail']['PriceForWater']);
+        ? null
+        : json['ContractMeterDetail']['PriceForWater'] as String;
 
     buildingId = json['Building']['BuildingId'] == null
         ? null
