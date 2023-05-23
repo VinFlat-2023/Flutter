@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:platform_device_id/platform_device_id.dart';
 import 'package:unihome/repositories/res/base_connect.dart';
 import 'package:unihome/repositories/res/base_response.dart';
@@ -104,7 +105,7 @@ class UserApi extends BaseConnect {
       {required String ticketDesc,
       required int type,
       required String ticketName,
-      required List<File> images}) async {
+      required List<XFile> images}) async {
     return await postFormDataRequest(
       '/api/tickets',
       ticketTypeId: type,
@@ -115,7 +116,7 @@ class UserApi extends BaseConnect {
   }
 
   Future<BaseResponse?> getListTicket() async {
-    return await getResponse('/api/tickets');
+    return await getResponse('/api/tickets?PageSize=25');
   }
 
   Future<BaseResponse?> getListTicketType() async {
@@ -186,7 +187,7 @@ class UserApi extends BaseConnect {
   }
 
   Future<BaseResponse?> deleteTicket(String idTicket) async {
-    return await deleteRequest('/api/tickets/$idTicket/user');
+    return await putRequest('/api/tickets/$idTicket/user/cancelled');
   }
 
   Future<BaseResponse?> acceptTicket(String idTicket) async {
@@ -210,5 +211,9 @@ class UserApi extends BaseConnect {
 
   Future<BaseResponse?> solveTicketTech(String idTicket) async {
     return await putRequest('/api/tickets/$idTicket/solve-ticket');
+  }
+
+  Future<BaseResponse?> getTicketDetail(String idTicket) async {
+    return await getResponse('/api/tickets/$idTicket');
   }
 }

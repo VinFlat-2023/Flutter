@@ -55,7 +55,12 @@ class TicketScreen extends GetWidget<TicketController> {
                     children: <Widget>[
                       SizedBox(height: responsiveHeight(12)),
                       _buildTabbar(),
-                      _buildBody(),
+                      controller.listTicket.isEmpty
+                          ? Padding(
+                              padding:
+                                  EdgeInsets.only(top: responsiveHeight(48)),
+                              child: const Text('Hiện tại chưa có yêu cầu nào'))
+                          : _buildBody(),
                     ],
                   ),
                 ),
@@ -310,6 +315,10 @@ class TicketScreen extends GetWidget<TicketController> {
             }
           },
         );
+        if (tmp.isEmpty) {
+          return Center(child: Text('Không có yêu cầu phù hợp'));
+        }
+
         return Container(
           height: getHeightDevice(),
           width: getWidthDevice(),
@@ -321,7 +330,7 @@ class TicketScreen extends GetWidget<TicketController> {
             itemBuilder: (BuildContext context, int index) {
               return InkWell(
                 onTap: () =>
-                    goTo(screen: ROUTE_TICKET_DETAIL, argument: tmp[index]),
+                    goTo(screen: ROUTE_TICKET_DETAIL, argument: tmp[index].id),
                 child: Container(
                   padding: EdgeInsets.symmetric(
                     horizontal: responsiveWidth(16),
@@ -410,6 +419,9 @@ class TicketScreen extends GetWidget<TicketController> {
             }
           },
         );
+        if (tmp.isEmpty) {
+          return Center(child: Text('Không có yêu cầu phù hợp'));
+        }
         return Container(
           height: getHeightDevice(),
           width: getWidthDevice(),
@@ -421,7 +433,7 @@ class TicketScreen extends GetWidget<TicketController> {
             itemBuilder: (BuildContext context, int index) {
               return InkWell(
                 onTap: () =>
-                    goTo(screen: ROUTE_TICKET_DETAIL, argument: tmp[index]),
+                    goTo(screen: ROUTE_TICKET_DETAIL, argument: tmp[index].id),
                 child: Container(
                   padding: EdgeInsets.symmetric(
                     horizontal: responsiveWidth(16),
@@ -510,6 +522,9 @@ class TicketScreen extends GetWidget<TicketController> {
             }
           },
         );
+        if (tmp.isEmpty) {
+          return Center(child: Text('Không có yêu cầu phù hợp'));
+        }
         return Container(
           height: getHeightDevice(),
           width: getWidthDevice(),
@@ -521,7 +536,7 @@ class TicketScreen extends GetWidget<TicketController> {
             itemBuilder: (BuildContext context, int index) {
               return InkWell(
                 onTap: () =>
-                    goTo(screen: ROUTE_TICKET_DETAIL, argument: tmp[index]),
+                    goTo(screen: ROUTE_TICKET_DETAIL, argument: tmp[index].id),
                 child: Container(
                   padding: EdgeInsets.symmetric(
                     horizontal: responsiveWidth(16),
@@ -611,6 +626,9 @@ class TicketScreen extends GetWidget<TicketController> {
             }
           },
         );
+        if (tmp.isEmpty) {
+          return Center(child: Text('Không có yêu cầu phù hợp'));
+        }
         return Container(
           height: getHeightDevice(),
           width: getWidthDevice(),
@@ -622,7 +640,111 @@ class TicketScreen extends GetWidget<TicketController> {
             itemBuilder: (BuildContext context, int index) {
               return InkWell(
                 onTap: () =>
-                    goTo(screen: ROUTE_TICKET_DETAIL, argument: tmp[index]),
+                    goTo(screen: ROUTE_TICKET_DETAIL, argument: tmp[index].id),
+                child: Container(
+                  padding: EdgeInsets.symmetric(
+                    horizontal: responsiveWidth(16),
+                    vertical: responsiveHeight(12),
+                  ),
+                  margin: EdgeInsets.only(bottom: responsiveHeight(16)),
+                  decoration: BoxDecoration(
+                    border: Border.all(color: AppColor.grayLight, width: 1.5),
+                    borderRadius: BorderRadius.circular(6),
+                    color: AppColor.white,
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          Expanded(
+                              flex: 1,
+                              child: Image.asset('assets/icons/no-image.png')),
+                          SizedBox(width: responsiveWidth(24)),
+                          Expanded(
+                            flex: 4,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  '${tmp[index].name}',
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.w600,
+                                    color: AppColor.black,
+                                    fontSize: responsiveFont(16),
+                                  ),
+                                ),
+                                Text(
+                                  _statusText(tmp[index]
+                                      .status
+                                      .toString()
+                                      .toLowerCase()),
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.w600,
+                                    color: _statusColor(tmp[index]
+                                        .status
+                                        .toString()
+                                        .toLowerCase()),
+                                    fontSize: responsiveFont(16),
+                                  ),
+                                ),
+                                Text(
+                                  'Ngày gửi: ${tmp[index].createdDate}',
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.w400,
+                                    color: AppColor.black,
+                                    fontSize: responsiveFont(14),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                      Text(
+                        '${tmp[index].desc}',
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(
+                          fontWeight: FontWeight.w600,
+                          color: AppColor.black,
+                          fontSize: responsiveFont(16),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              );
+            },
+          ),
+        );
+
+      case 'cancelled':
+        RxList<Ticket> tmp = <Ticket>[].obs;
+        controller.listTicket.forEach(
+          (e) {
+            if (e.status!.toLowerCase() == status) {
+              tmp.add(e);
+            }
+          },
+        );
+        if (tmp.isEmpty) {
+          return Center(child: Text('Không có yêu cầu phù hợp'));
+        }
+        return Container(
+          height: getHeightDevice(),
+          width: getWidthDevice(),
+          padding: EdgeInsets.symmetric(
+              horizontal: responsiveWidth(22), vertical: responsiveHeight(24)),
+          child: ListView.builder(
+            shrinkWrap: true,
+            itemCount: tmp.length,
+            itemBuilder: (BuildContext context, int index) {
+              return InkWell(
+                onTap: () =>
+                    goTo(screen: ROUTE_TICKET_DETAIL, argument: tmp[index].id),
                 child: Container(
                   padding: EdgeInsets.symmetric(
                     horizontal: responsiveWidth(16),
@@ -717,7 +839,7 @@ class TicketScreen extends GetWidget<TicketController> {
           return InkWell(
             onTap: () => goTo(
                 screen: ROUTE_TICKET_DETAIL,
-                argument: controller.listTicket[index]),
+                argument: controller.listTicket[index].id),
             child: Container(
               padding: EdgeInsets.symmetric(
                 horizontal: responsiveWidth(16),
@@ -801,7 +923,7 @@ class TicketScreen extends GetWidget<TicketController> {
   Color _statusColor(String status) {
     switch (status) {
       case 'active':
-        return AppColor.send;
+        return AppColor.darkBlue;
       case 'processing':
         return AppColor.processing;
       case 'confirming':
@@ -809,7 +931,7 @@ class TicketScreen extends GetWidget<TicketController> {
       case 'solved':
         return AppColor.complete;
       default:
-        return AppColor.darkBlue;
+        return AppColor.send;
     }
   }
 
@@ -823,9 +945,8 @@ class TicketScreen extends GetWidget<TicketController> {
         return 'Hoàn thành';
       case 'confirming':
         return 'Đang xử lí';
-
       default:
-        return 'Chưa cập nhật';
+        return 'Đã huỷ';
     }
   }
 

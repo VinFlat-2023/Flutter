@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
@@ -16,7 +14,7 @@ class TicketController extends GetxController {
   var listTicket = <Ticket>[].obs;
   var listTicketType = <TicketType>[].obs;
   var selectedType = TicketType().obs;
-  var imageList = <File>[].obs;
+  var imageList = <XFile>[].obs;
 
   final _userRepo = Get.find<UserRepo>();
 
@@ -42,12 +40,14 @@ class TicketController extends GetxController {
   Future<void> getListTicket() async {
     await _userRepo.getListTicket().then((value) {
       if (value != null) {
+        listTicket.clear();
         listTicket.value = value;
       }
     });
   }
 
   Future<void> requestTicket() async {
+    showLoading();
     await _userRepo
         .requestTicket(
       images: imageList,
@@ -61,14 +61,15 @@ class TicketController extends GetxController {
           ticketDesc.clear();
           selectedType.value = listTicketType[0];
           imageList.clear();
-          getListTicket();
           goBack();
           showToast('SUCCESSFUL');
+          getListTicket();
         } else {
           showToast('BUG!!!');
         }
       },
     );
+    hideLoading();
   }
 
   Future<void> getTicketType() async {
@@ -95,9 +96,7 @@ class TicketController extends GetxController {
         showToast('Bạn chỉ được chọn tối đa 3 bức ảnh');
         pickedList.clear();
       } else {
-        pickedList.forEach((element) {
-          imageList.add(File(element.path));
-        });
+        imageList.value = pickedList;
       }
     } on PlatformException catch (e) {
       print(e);

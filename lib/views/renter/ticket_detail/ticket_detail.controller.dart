@@ -8,27 +8,48 @@ import 'package:unihome/repositories/models/ticket.model.dart';
 import 'package:unihome/repositories/repos/user.repo.dart';
 import 'package:unihome/routes/pages.dart';
 import 'package:unihome/utils/metric.dart';
+import 'package:unihome/views/renter/ticket/ticket.controller.dart';
 
 class TicketDetailController extends GetxController {
-  var ticket = getArgument() as Ticket;
+  var id = getArgument() as int;
+  var ticket = Ticket().obs;
+  var isLoading = true.obs;
 
   TextEditingController desc = TextEditingController();
   var imageList = <File>[].obs;
 
   final _userRepo = Get.find<UserRepo>();
+  final _ticketCtrl = Get.find<TicketController>();
 
   @override
   void onInit() {
-    desc.text = ticket.desc.toString();
+    Future.wait(
+      [
+        getTicketDetail(),
+      ],
+    ).then((_) => isLoading.value = false);
 
     super.onInit();
   }
 
+  Future<void> getTicketDetail() async {
+    await _userRepo.getTicketDetail(id.toString()).then(
+      (value) {
+        if (value != null) {
+          ticket.value = value;
+          desc.text = ticket.value.desc.toString();
+        }
+      },
+    );
+  }
+
   Future<void> acceptTicket() async {
-    await _userRepo.acceptTicket(ticket.id.toString()).then((value) {
+    await _userRepo.acceptTicket(ticket.value.id.toString()).then((value) {
       if (value == 'true') {
-        showToast('Xác nhận yêu cầu thành công');
-        goToAndRemoveAll(screen: ROUTE_NAV_BAR);
+        _ticketCtrl.getListTicket().then((_) {
+          showToast('Xác nhận yêu cầu thành công');
+          goBack();
+        });
       } else {
         showToast(value.toString());
       }
@@ -36,10 +57,12 @@ class TicketDetailController extends GetxController {
   }
 
   Future<void> deleteTicket() async {
-    await _userRepo.deleteTicket(ticket.id.toString()).then((value) {
+    await _userRepo.deleteTicket(ticket.value.id.toString()).then((value) {
       if (value == 'true') {
-        showToast('Xoá yêu cầu thành công');
-        goBack();
+        _ticketCtrl.getListTicket().then((_) {
+          showToast('Xoá yêu cầu thành công');
+          goBack();
+        });
       } else {
         showToast(value.toString());
       }
